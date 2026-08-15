@@ -34,12 +34,12 @@
 
 ## 🛠️ 3. Fase BigQuery: Ingesta y Transformación de Datos (ETL)
 
-### Step 2.1: Ingesta y Conversión de Tipos de Datos (Date Casting)
+### Step 3.1: Ingesta y Conversión de Tipos de Datos (Date Casting)
 * **Problema:** La columna `periodo` se cargó originalmente como `INT64` (ej. `1990`). Los motores de BI no reconocen un entero como una dimensión temporal nativa, lo que impedía construir gráficos de serie de tiempo de forma correcta.
 * **Solución SQL:** Se aplicó una transformación utilizando `CAST` y la función `DATE(year, month, day)` para convertir el entero a formato fecha estándar (`YYYY-01-01`).
 * **Optimización Adicional:** Se reordenó la estructura de columnas y se ordenó el dataset indexando por `region ASC, periodo ASC`.
 
-### Step 2.2: Normalización de Datos ("Tidy Data" / UNPIVOT)
+### Step 3.2: Normalización de Datos ("Tidy Data" / UNPIVOT)
 * **Problema:** Los sectores económicos venían modelados como 11 columnas individuales (*wide format*), dificultando la agregación y el filtrado dinámico en BI.
 * **Solución SQL:** Se diseñó la vista `vw_sectores_unpivot` mediante el operador `UNPIVOT`, consolidando las 11 columnas sectoriales en dos únicas dimensiones: `sector` (nombre del sector) y `emision` (métrica en Mt CO₂eq).
 * **Aprendizaje de Arquitectura:** Una sola tabla/vista bien modelada en formato largo (*long format*) es capaz de alimentar el 100% de los componentes interactivos del dashboard (gráficos de línea, columnas apiladas, mapas y tablas).
@@ -48,9 +48,9 @@
 
 ## 📊 4. Fase Looker Studio: Modelado Visual y UX
 
-### Step 3.1: Configuración Geográfica
+### Step 4.1: Configuración Geográfica
 * **Capa Técnica vs. Capa Visual:** Se utilizó la columna `codigo_iso_region` (ej. `CL-AN`) exclusivamente para el motor de geocodificación de Google Maps, asignando la columna `region` para tooltips y controles legibles.
 * **Ordenamiento Territorial:** Para evitar el ordenamiento alfabético por defecto, se creó el campo calculado `orden_geografico` (valores numéricos del 1 al 16) para ordenar a Chile lógicamente de Norte a Sur.
 
-### Step 3.2: Limpieza de Etiquetas de Dominio
+### Step 4.2: Limpieza de Etiquetas de Dominio
 * **Formateo de Texto:** Las etiquetas técnicas en `snake_case` (ej. `uso_tierra_silvicultura`) se transformaron mediante un campo calculado `CASE` (`sector_formateado`) para presentar nombres ejecutivos con ortografía y tildes oficiales.
