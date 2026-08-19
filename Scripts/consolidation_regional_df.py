@@ -1,68 +1,176 @@
-# ==============================================================================
-# CASO DE ESTUDIO 3: HUELLA DE CO2 REGIONAL EN CHILE
-# Script de ETL (Extracción, Transformación y Carga) para consolidación de datos
-# ==============================================================================
-
+# ============================================================
+# Proyecto: Análisis de emisiones de CO2 en Chile (1990-2022)
+# Proceso: Consolidación y preparación de datos
+# Herramientas: Python / Pandas / Google Colab
+# Autor: Hector Daniel Argomedo Carrasco
+# ============================================================
 import os
 import glob
 import pandas as pd
-from google.colab import drive
+# ------------------------------------------------------------
+# 1. Conectar Google Drive y localizar los archivos originales
+# ------------------------------------------------------------
 
-# 1. Conexión a Google Drive
+from google.colab import drive
 drive.mount('/content/drive')
 
-# 2. Búsqueda y lectura dinámica de archivos de origen (.xlsx)
-ruta_origen = '/content/drive/MyDrive/Caso de estudio 3 Huella de Co2 Regional en Chile/Archivos Originales/*.xlsx'
-archivos_xlsx = glob.glob(ruta_origen)
+archivos_xlsx = glob.glob(
+    '/content/drive/MyDrive/Caso de estudio 3 Huella de Co2 Regional en Chile/Archivos Originales/*.xlsx'
+)
+
+
+# ------------------------------------------------------------
+# 2. Leer y consolidar los 16 archivos regionales
+# ------------------------------------------------------------
 
 lista_dataframes = []
 
 for archivo in archivos_xlsx:
     df_temp = pd.read_excel(archivo)
-    # Conservar el nombre del archivo de origen para extraer la región posteriormente
-    df_temp['origen_archivo'] = os.path.basename(archivo)
+
+    # Se conserva el nombre del archivo para identificar la región
+    df_temp['region'] = os.path.basename(archivo)
+
     lista_dataframes.append(df_temp)
 
-# 3. Consolidación de tablas regionales en un DataFrame maestro (UNION ALL)
+# Se unen todos los DataFrames en una única tabla maestra
 df_maestro = pd.concat(lista_dataframes, ignore_index=True)
 
-# 4. Limpieza de datos: Filtrar registros del año 2024 (datos incompletos/vacíos)
-df_maestro.drop(df_maestro[df_maestro['año'] == 2024].index, inplace=True)
 
-# 5. Estandarización y acortamiento de encabezados (Mapeo a snake_case)
-dicc_col = {
-    'año': 'periodo',
-    'Industrias de la energía': 'ind_energia',
-    'Industrias manufactureras y de la construcción': 'ind_manufactura_const',
-    'Transporte': 'transporte',
-    'Otros sectores': 'otros_sectores',
-    'No especificado': 'no_especificado',
-    'Emisiones fugitivas de combustibles': 'emisiones_fugitivas',
-    'Transporte y almacenamiento de CO2': 'transporte_co2',
-    'Procesos industriales y uso de productos (IPPU)': 'procesos_industriales',
-    'Agricultura': 'agricultura',
-    'Uso de la tierra, cambio de uso de la tierra y silvicultura': 'uso_tierra_silvicultura',
-    'Residuos': 'residuos',
-    'Estimación Inventario': 'est_inventario',
-    'Inventario': 'inventario',
-    'origen_archivo': 'region'
-}
+# ------------------------------------------------------------
+# 3. Limpiar y normalizar el nombre de las regiones
+# ------------------------------------------------------------
 
-df_maestro.rename(columns=dicc_col, inplace=True)
-
-# 6. Limpieza de la columna 'region' mediante expresiones regulares (Regex)
-# Se eliminan prefijos numéricos, la extensión .xlsx y guiones bajos
+# Se eliminan números, extensión del archivo y guiones bajos
+# utilizados originalmente para identificar los archivos regionales.
 df_maestro["region"] = (
     df_maestro["region"]
-    .str.replace(r"\d+|.xlsx|_", "", regex=True)
+    .str.replace(r"\d+|\.xlsx|_", "", regex=True)
     .str.strip()
 )
 
-# 7. Tratamiento de valores nulos (Imputación con 0 para mantener consistencia de negocio)
-df_maestro = df_maestro.fillna(0)
 
-# 8. Exportación del dataset consolidado y limpio a formato CSV
-ruta_guardado = "/content/drive/MyDrive/Caso de estudio 3 Huella de Co2 Regional en Chile/Archivo Procesado/Co2_regional_limpio.csv"
-df_maestro.to_csv(ruta_guardado, index=False, encoding="utf-8")
+# ------------------------------------------------------------
+# 4. Convertir el período a formato fecha
+# ------------------------------------------------------------
 
-print("¡Proceso ETL completado con éxito! Archivo CSV guardado en Drive.")
+# Los datos son anuales, por lo que cada año se convierte
+# al formato de fecha para facilitar su uso posterior.
+df_maestro['periodo'] = pd.to_datetime(
+    df_maestro['periodo'].astype(str),
+    format='%Y'
+)
+
+
+# ------------------------------------------------------------
+# 5. Unificar una columna con nombre duplicado
+# ------------------------------------------------------------
+
+# Algunos archivos contenían la misma variable con dos nombres
+# diferentes. Se utilizan ambas columnas para recuperar los
+# valores disponibles y posteriormente eliminar la duplicada.
+
+df_maestro['in_manufactur_y_ const'] = (
+    df_maestro['in_manufactur_y_ const']
+    .fillna(df_maestro['ind_manufactur_y_ const'])
+)
+
+df_maestro = df_maestro.drop(
+    columns=['ind_manufactur_y_ const']
+)
+
+
+# ------------------------------------------------------------
+# 6. Normalizar nombres específicos de regiones
+# ------------------------------------------------------------
+
+# Se corrigen los nombres de Los Ríos y Los Lagos para evitar
+# problemas de interpretación y facilitar su utilización
+# posterior en visualizaciones geográficas.
+
+correccion_regiones = {
+    'LosRios': 'Los Ríos',
+    'LosLagos': 'Los Lagos'
+}
+
+df_maestro['region'] = df_maestro['region'].replace(
+    correccion_regiones
+)
+
+
+# ------------------------------------------------------------
+# 7. Definir la estructura final de la tabla
+# ------------------------------------------------------------
+
+# Esta lista selecciona las columnas que se conservarán
+# y establece su orden final.
+#
+# Se coloca período y región al comienzo para facilitar el
+# análisis posterior en BigQuery y Looker Studio.
+
+columnas = [
+    'periodo',
+    'region',
+    'energia',
+    'in_manufactur_y_ const',
+    'transporte',
+    'otros_sectores',
+    'no_especificado',
+    'emisiones_fugitivas',
+    'trans_co2',
+    'ippu',
+    'agricultura',
+    'silvicultura',
+    'residuos',
+    'inventario'
+]
+
+df_maestro = df_maestro[columnas]
+
+
+# ------------------------------------------------------------
+# 8. Normalizar nombres de columnas
+# ------------------------------------------------------------
+
+# Se eliminan espacios y caracteres problemáticos para
+# asegurar compatibilidad con BigQuery y SQL.
+
+df_maestro = df_maestro.rename(columns={
+    "in_manufactur_y_ const": "in_manufactur_y_const"
+})
+
+
+# ------------------------------------------------------------
+# 9. Normalizar tipos de datos
+# ------------------------------------------------------------
+
+# Se convierten estas columnas a FLOAT64 para mantener
+# consistencia entre los sectores antes de cargarlos
+# posteriormente en BigQuery.
+
+df_maestro["no_especificado"] = (
+    df_maestro["no_especificado"].astype(float)
+)
+
+df_maestro["trans_co2"] = (
+    df_maestro["trans_co2"].astype(float)
+)
+
+
+# ------------------------------------------------------------
+# 10. Exportar el DataFrame consolidado a CSV
+# ------------------------------------------------------------
+
+ruta_salida = (
+    '/content/drive/MyDrive/'
+    'Caso de estudio 3 Huella de Co2 Regional en Chile/'
+    'datos_co2_1990_2022.csv'
+)
+
+df_maestro.to_csv(
+    ruta_salida,
+    index=False,
+    encoding='utf-8-sig'
+)
+
+print("CSV guardado correctamente.")
