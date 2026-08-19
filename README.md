@@ -1,22 +1,37 @@
-## Chile CO₂ & Energy Transition: Regional Emissions Study (1990–2023)
+# Chile CO₂ Historical Evolution: Regional Emissions Study (1990–2022)
 
 ## 📌 Visión General del Proyecto
-Este proyecto analiza la evolución histórica de las emisiones de gases de efecto invernadero (GEI) y dióxido de carbono ($CO_2$) en Chile a nivel regional durante el periodo **1990–2022**. Utilizando los registros oficiales del *Observatorio de Carbono Neutralidad*, el estudio identifica patrones sectoriales, tendencias de descarbonización regional y anomalías estructurales derivadas de la transición energética del país.
+
+Este proyecto analiza la evolución histórica de las emisiones y absorciones de dióxido de carbono (CO₂) en Chile a nivel regional durante el período **1990–2022**.
+
+Utilizando registros oficiales del *Observatorio de Carbono Neutralidad*, el estudio integra información de las **16 regiones de Chile** para identificar patrones sectoriales, tendencias regionales y cambios relevantes en las emisiones y absorciones a lo largo de **33 años**.
+
+Los datos regionales fueron consolidados y transformados para permitir su análisis por período, región y sector mediante Google BigQuery y Google Looker Studio.
 
 ---
 
-## 🎯 Objetivos de Negocio / Análisis
-* **Mapeo Sectorial:** Identificar los sectores industriales con mayor impacto de emisiones ($KtCO_2eq$) por región.
-* **Hotspots y Sumideros Regionales:** Identificar las regiones relevantes en cuanto emisión y absorción ($KtCO_2eq$).
-* **Detección de Anomalías:** Analizar quiebres en las series temporales (ej. variaciones abruptas en el periodo 2021–2022).
-* **Visualización Interactiva:** Entregar un Dashboard en Data Studio con segmentación dinámica por rango de años, región y sector.
+## 🎯 Objetivos de Análisis
+
+* **Análisis sectorial:** Identificar los sectores con mayor contribución a las emisiones y analizar su comportamiento entre regiones.
+
+* **Emisiones y absorciones regionales:** Identificar las regiones con mayores niveles de emisión y aquellas con una mayor contribución a la absorción de CO₂.
+
+* **Análisis temporal:** Examinar la evolución histórica de las emisiones y absorciones durante el período 1990–2022.
+
+* **Detección de anomalías:** Identificar variaciones o cambios relevantes en las series temporales para su posterior análisis.
+
+* **Visualización interactiva:** Desarrollar un dashboard con filtros dinámicos por período, región y sector.
 
 ---
 
 ## 🛠️ Stack Tecnológico
-* **Lenguaje:** Python 3.x
-* **Librerías de Procesamiento:** `pandas`, `openpyxl`, `os`
-* **Transformación de Datos (ETL):** Unificación de 16 datasets regionales y reestructuración tabular (*Melt/Unpivot*).
-* **Visualización:** Data Studio (*Gráficos de columnas apiladas, segmentadores de datos, información sobre herramientas personalizada*).
-* **Presentación:** Google Slides (*Crear una presentación impactante y directa con los principales hallazgos*).](https://datastudio.google.com/navigation/reporting)
 
+* **Lenguaje:** Python 3.x
+* **Procesamiento de datos:** `pandas`, `glob`, `os`
+* **Fuente de datos:** Observatorio de Carbono Neutralidad
+* **Datos de origen:** 16 archivos regionales en formato `.xlsx`
+* **ETL y consolidación:** Python / Google Colab
+* **Base de datos:** Google BigQuery
+* **Transformación de datos:** Conversión de formato ancho a formato largo mediante `UNPIVOT`
+* **Visualización:** Google Looker Studio
+* **Presentación:** Google Slides
