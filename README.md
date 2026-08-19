@@ -7,7 +7,7 @@ Este proyecto analiza la evolución histórica de las emisiones de gases de efec
 
 ## 🎯 Objetivos de Negocio / Análisis
 * **Mapeo Sectorial:** Identificar los sectores industriales con mayor impacto de emisiones ($KtCO_2eq$) por región.
-* * **Hotspots y Sumideros Regionales:** Identificar las regiones relevantes en cuanto emisión y absorción ($KtCO_2eq$).
+* **Hotspots y Sumideros Regionales:** Identificar las regiones relevantes en cuanto emisión y absorción ($KtCO_2eq$).
 * **Detección de Anomalías:** Analizar quiebres en las series temporales (ej. variaciones abruptas en el periodo 2021–2022).
 * **Visualización Interactiva:** Entregar un Dashboard en Data Studio con segmentación dinámica por rango de años, región y sector.
 
