@@ -1,7 +1,7 @@
 ## Chile CO₂ & Energy Transition: Regional Emissions Study (1990–2023)
 
 ## 📌 Visión General del Proyecto
-Este proyecto analiza la evolución histórica de las emisiones de gases de efecto invernadero (GEI) y dióxido de carbono ($CO_2$) en Chile a nivel regional durante el periodo **1990–2023**. Utilizando los registros oficiales del *Observatorio de Carbono Neutralidad*, el estudio identifica patrones sectoriales, tendencias de descarbonización regional y anomalías estructurales derivadas de la transición energética del país.
+Este proyecto analiza la evolución histórica de las emisiones de gases de efecto invernadero (GEI) y dióxido de carbono ($CO_2$) en Chile a nivel regional durante el periodo **1990–2022**. Utilizando los registros oficiales del *Observatorio de Carbono Neutralidad*, el estudio identifica patrones sectoriales, tendencias de descarbonización regional y anomalías estructurales derivadas de la transición energética del país.
 
 ---
 
