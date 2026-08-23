@@ -143,7 +143,7 @@
 - **Absorción bruta:** Se calculan a partir de los valores negativos de `emision`, transformándolos en valores positivos para representar visualmente la cantidad de CO₂ absorbida.
 
 - **Balance:** Se obtiene mediante la diferencia entre emisiones brutas y absorción bruta.
-
+- **Omisión de Sectores:** Se decide dejar fuera a los sectores Transporte Co2 y No Especificado por no aportar ningún dato de emisión de Co2 para el estudio 
 - **Nota metodológica:** Un sector o región con balance neto positivo puede contener igualmente componentes de absorción. Por esta razón, para el análisis se diferencian explícitamente las emisiones brutas, la absorción bruta y el balance neto.
 
 
