@@ -1,37 +1,26 @@
-# Chile CO₂ Historical Evolution: Regional Emissions Study (1990–2022)
+# 🌿 Chile CO₂ Historical Evolution: Regional Emissions Study (1990–2022)
 
-## 📌 Visión General del Proyecto
+Este repositorio contiene el código fuente, los scripts de transformación ETL y la estructura analítica del estudio sobre la **Evolución Histórica de Emisiones y Absorciones de CO₂ en Chile**.
 
-Este proyecto analiza la evolución histórica de las emisiones y absorciones de dióxido de carbono (CO₂) en Chile a nivel regional durante el período **1990–2022**.
-
-Utilizando registros oficiales del *Observatorio de Carbono Neutralidad*, el estudio integra información de las **16 regiones de Chile** para identificar patrones sectoriales, tendencias regionales y cambios relevantes en las emisiones y absorciones a lo largo de **33 años**.
-
-Los datos regionales fueron consolidados y transformados para permitir su análisis por período, región y sector mediante Google BigQuery y Google Looker Studio.
+🌐 **[👉 Volver a la Presentación Completa del Proyecto en el Portafolio](https://sites.google.com/view/hector-argomedo-portafolio/inicio)**
 
 ---
 
-## 🎯 Objetivos de Análisis
+### 📂 Estructura del Repositorio
 
-* **Análisis sectorial:** Identificar los sectores con mayor contribución a las emisiones y analizar su comportamiento entre regiones.
-
-* **Emisiones y absorciones regionales:** Identificar las regiones con mayores niveles de emisión y aquellas con una mayor contribución a la absorción de CO₂.
-
-* **Análisis temporal:** Examinar la evolución histórica de las emisiones y absorciones durante el período 1990–2022.
-
-* **Detección de anomalías:** Identificar variaciones o cambios relevantes en las series temporales para su posterior análisis.
-
-* **Visualización interactiva:** Desarrollar un dashboard con filtros dinámicos por período, región y sector.
+* 📜 **[`scripts/`](./scripts/)**: Scripts de Python para la consolidación de 16 archivos regionales `.xlsx` y automatización del proceso ETL.
+* 📝 **[`docs/`](./docs/)**: Bitácora técnica de desarrollo (`data_journal.md`) bajo la metodología **P.D.A.R.** (Problema, Decisión, Acción, Resultado).
+* 📊 **[`sql/`](./sql/)**: Consultas y scripts de transformación en Google BigQuery para la reestructuración de formato ancho a formato largo mediante `UNPIVOT`.
 
 ---
 
-## 🛠️ Stack Tecnológico
+### 🛠️ Tech Stack & Herramientas
 
-* **Lenguaje:** Python 3.x
-* **Procesamiento de datos:** `pandas`, `glob`, `os`
-* **Fuente de datos:** Observatorio de Carbono Neutralidad
-* **Datos de origen:** 16 archivos regionales en formato `.xlsx`
-* **ETL y consolidación:** Python / Google Colab
-* **Base de datos:** Google BigQuery
-* **Transformación de datos:** Conversión de formato ancho a formato largo mediante `UNPIVOT`
-* **Visualización:** Google Looker Studio
-* **Presentación:** Google Slides
+* **Processing & ETL:** Python (`pandas`, `glob`, `os`) / Google Colab.
+* **Data Warehouse:** Google BigQuery (Consultas SQL y `UNPIVOT`).
+* **Data Visualization:** Google Looker Studio.
+* **Data Source:** Observatorio de Carbono Neutralidad (16 datasets regionales, 1990–2022).
+
+---
+
+> **Nota:** Este proyecto analiza 33 años de datos históricos de las 16 regiones de Chile para identificar patrones sectoriales, tendencias regionales y capacidad de absorción de CO₂.
