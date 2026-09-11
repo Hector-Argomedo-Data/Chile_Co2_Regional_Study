@@ -8,8 +8,8 @@ Este repositorio contiene el código fuente, los scripts de transformación ETL 
 
 ### 📂 Estructura del Repositorio
 
-* 📜 **[`scripts/`](./scripts/)**: Scripts de Python para la consolidación de 16 archivos regionales `.xlsx` y automatización del proceso ETL.
 * 📝 **[`docs/`](./docs/)**: Bitácora técnica de desarrollo (`data_journal.md`) bajo la metodología **P.D.A.R.** (Problema, Decisión, Acción, Resultado).
+* 📜 **[`scripts/`](./scripts/)**: Scripts de Python para la consolidación de 16 archivos regionales `.xlsx` y automatización del proceso ETL.
 * 📊 **[`sql/`](./sql/)**: Consultas y scripts de transformación en Google BigQuery para la reestructuración de formato ancho a formato largo mediante `UNPIVOT`.
 
 ---
