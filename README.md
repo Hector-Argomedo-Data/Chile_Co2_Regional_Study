@@ -23,4 +23,4 @@ Este repositorio contiene el código fuente, los scripts de transformación ETL 
 
 ---
 
-> **Nota:** Este proyecto analiza 33 años de datos históricos de las 16 regiones de Chile para identificar patrones sectoriales, tendencias regionales y capacidad de absorción de CO₂.
+> **Nota:** Este proyecto analiza 33 años de datos históricos de las 16 regiones de Chile para identificar patrones sectoriales, tendencias regionales y capacidad de absorción de CO₂ se usa Google Sheets, Python,Bigquery SQL y Data Studios
